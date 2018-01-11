@@ -21,6 +21,13 @@ bacterial_taxa = pd.read_csv('data/Bacterial_tax_id_Levels.csv', keep_default_na
 merged_inner = pd.merge(left=assembly_summary, right=bacterial_taxa, left_on='taxid', right_on='tax_id')
 merged_inner.subspecies = merged_inner.subspecies.astype(str)
 
+## Clean_up dataframe
+
+### Currently the filtering by taxonomy relies on the column number so this
+### section remains a to-do priority. The numbers in Define Taxonomic will need
+### to be adjusted for the filtered table to be created 
+
+
 ## Define GREP Function
 def _grep(x, list_to_grep):
     for text in list_to_grep:
@@ -28,22 +35,27 @@ def _grep(x, list_to_grep):
             return True
     return False
 
+if args.l == None:
+    ## Create an exit point if improper variables are present
+    print('Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
+    exit()
 
+    
 ## Define Taxonomic Category
 if args.l.lower() == 'phylum':
-    col_num = 24
+    col_num = 23
 elif args.l.lower() == 'class':
-    col_num = 25
+    col_num = 24
 elif args.l.lower() == 'order':
-    col_num = 26
+    col_num = 25
 elif args.l.lower() == 'family':
-    col_num = 27
+    col_num = 26
 elif args.l.lower() == 'genus':
-    col_num = 28
+    col_num = 27
 elif args.l.lower() == 'species':
-    col_num = 29
+    col_num = 28
 elif args.l.lower() == 'subspecies':
-    col_num = 30
+    col_num = 29
 else:
     ## Create an exit point if improper variables are present
     print('Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
@@ -51,15 +63,22 @@ else:
 
 ## Make Directory
 if args.o == None:
-    os.system('rm -r BDT_Output')
-    os.system('mkdir BDT_Output')
+    if os.path.exists("BDT_Output"):
+        os.system('rm -r BDT_Output')
+        os.system('mkdir BDT_Output')
+    else:
+        os.system('mkdir BDT_Output')
     
     
 if args.o != None:
-         name = 'mkdir '+str(args.o)
-         rm_name = 'rm -r '+str(args.o)
-         os.system(rm_name)
-         os.system(name)
+    if os.path.exists(str(args.o)):
+        name = 'mkdir '+str(args.o)
+        rm_name = 'rm -r '+str(args.o)
+        os.system(rm_name)
+        os.system(name)
+    else:
+        name = 'mkdir '+str(args.o)
+        os.system(name)
          
 ## Decide which flag is used
 if args.q != None:
@@ -77,6 +96,8 @@ if args.f == None:
         my_list = args.q.split(",")
         mask = merged_inner.iloc[:,col_num].apply(_grep, list_to_grep = my_list)
         test = merged_inner[mask]
+        ## Clean up data table
+     
         if args.o == None:
             test.to_csv('BDT_Output/filtered_table.txt',sep='\t')
         else:
@@ -88,6 +109,8 @@ if args.q == None:
     my_list = [i[0] for i in my_list]
     mask = merged_inner.iloc[:,col_num].apply(_grep, list_to_grep = my_list)
     test = merged_inner[mask]
+    ## Clean up data table
+    
     if args.o == None:
         test.to_csv('BDT_Output/filtered_table.txt',sep='\t')
     else:
@@ -95,45 +118,68 @@ if args.q == None:
         test.to_csv(output,sep='\t')
 
 
-## Run Awk command
-if args.o == None:
 
-    
+## Default Directory Name
+if args.o == None:
+    ## Run Awk command to check for complete genomes
     os.system('''awk -F '\t' '{if($13=="Complete Genome") print $21}' BDT_Output/filtered_table.txt > BDT_Output/filtered_addresses.txt''')
+    ## Make new directory
     os.system('mkdir BDT_Output/Genomes')
 
-    with open('../BDT_Output/filtered_addresses.txt', 'r') as f:
-    wgets = f.readlines()
+    with open('BDT_Output/filtered_addresses.txt', 'r') as f:
+        wgets = f.readlines()
 
+
+    print('Downloading ' + str(len(wgets)) + ' complete genomes into genomes folder...this may take a while')
+          
     for i in range(0,len(wgets)):
         ## loop to format and call wget
-        wlink = wgets[i]
+        wlink = str(wgets[i])
         wlink = wlink.replace('\n','')
 
         ## Split the genome to recieve only genomic information
         wsplit = wlink.split('/')
-        genome = wsplit[9]
+        genome = str(wsplit[9])
         genome = genome.replace('\n', '')
 
         ## Create new system call
-        new_wget = 'wget -P ../BDT_Output/Genomes '+test+'/'+genome+'_genomic.fna.gz'
+        new_wget = 'wget -P BDT_Output/Genomes '+wlink+'/'+genome+'_genomic.fna.gz -q --show-progress'
         os.system(new_wget)
 
 
 
-
+## Custom Directory Name
 if args.o != None:
+    ## Run Awk command to check for complete genomes
     awk_name = '''awk -F '\t' '{if($13=="Complete Genome") print $21}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/filtered_addresses.txt'
     os.system(awk_name)
 
-## Make new directory
-
-
-if args.o != None:
+    ## Make new directory
     dir_name = 'mkdir '+str(args.o)+'/Genomes'
     os.system(dir_name)
 
 
+    dir_address = str(args.o)+'/filtered_addresses.txt'
+    dir_location = str(args.o)+'/Genomes '
+    with open(dir_address, 'r') as f:
+          wgets = f.readlines()
+
+
+    print('Downloading ' + str(len(wgets)) + ' complete genomes into genomes folder...this may take a while')
+          
+    for i in range(0,len(wgets)):
+        ## loop to format and call wget
+        wlink = str(wgets[i])
+        wlink = wlink.replace('\n','')
+
+        ## Split the genome to recieve only genomic information
+        wsplit = wlink.split('/')
+        genome = str(wsplit[9])
+        genome = genome.replace('\n', '')
+
+        ## Create new system call
+        new_wget = 'wget -P '+dir_location+wlink+'/'+genome+'_genomic.fna.gz -q --show-progress'
+        os.system(new_wget)
 
 
                
