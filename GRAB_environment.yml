@@ -1,0 +1,39 @@
+name: GRAB
+channels:
+- bioconda
+- conda-forge
+- defaults
+dependencies:
+- blast=2.7.1=boost1.64_1
+- python-dateutil=2.3=py27_0
+- boost=1.64.0=py27_4
+- boost-cpp=1.64.0=1
+- bzip2=1.0.6=1
+- ca-certificates=2017.11.5=0
+- certifi=2017.11.5=py27_0
+- gettext=0.19.8.1=0
+- gmp=6.1.2=0
+- gnutls=3.5.15=0
+- icu=58.2=0
+- libidn11=1.33=0
+- ncurses=5.9=10
+- nettle=3.3=0
+- openssl=1.0.2n=0
+- pandas=0.22.0=py27_0
+- pcre=8.39=0
+- pip=9.0.1=py27_1
+- pytz=2017.3=py_2
+- readline=6.2=0
+- setuptools=38.4.0=py27_0
+- six=1.11.0=py27_1
+- sqlite=3.19.3=1
+- tk=8.6.7=0
+- wheel=0.30.0=py27_2
+- zlib=1.2.8=3
+- intel-openmp=2018.0.0=h8158457_8
+- libgfortran=3.0.1=h93005f0_2
+- mkl=2018.0.1=hfbd8650_4
+- numpy=1.14.0=py27h8a80b8c_0
+- python=2.7.3=5
+prefix: /Users/stronglab2/anaconda2/envs/GRAB
+
