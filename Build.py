@@ -20,8 +20,17 @@ if args.o != None:
 if args.o == None:
     if args.f == None:
         if os.path.exists("GRAB_Output/"):
-            ## Check if Genomes are zipped?
-            os.system('gunzip GRAB_Output/Genomes/*.gz')
+            
+            ## Check if Genomes are zipped
+            os.system('ls GRAB_Output/Genomes/ | head -n 1 > tmp')
+            x = open('tmp', 'r').read()
+            os.remove('tmp')
+            x = x.strip()
+            y = x[-2:]
+
+            ## Unzip genomes if necessary
+            if y == 'gz':
+                os.system('gunzip GRAB_Output/Genomes/*.gz')
             os.system('mkdir GRAB_Output/GRAB_DB')
             os.system('cat GRAB_Output/Genomes/*.fna > GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta')
             os.system('makeblastdb -in GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Output/GRAB_DB/GRAB_DB -title "GRAB_DB"')
@@ -40,9 +49,6 @@ if args.o == None:
         
 if args.o != None:
 
-    ## Error with -o names GRAB_Output (Already exists)
-
-    
     my_list = args.o.split(",")
     
     ## Check if input is present
@@ -54,6 +60,8 @@ if args.o != None:
             exit()
     
     ## Create Named Directory
+    if os.path.exists("GRAB_Combined/"):
+        os.system('rm -r GRAB_Combined/')
     os.system('mkdir GRAB_Combined')
     os.system('mkdir GRAB_Combined/Combined_Genomes')
     os.system('mkdir GRAB_Combined/GRAB_DB')
