@@ -1,9 +1,8 @@
 # GRAB
 
 
-## Myco + Bact avium example for edge case
+### Myco + Bact avium example for edge case
 
-# ViruSpy: a pipeline for viral identification from metagenomic samples
 
 ## Table of Contents
 
