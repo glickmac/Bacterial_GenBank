@@ -4,60 +4,108 @@ import os
 
 ## Make commandline arguments with ArgParse
 parser = argparse.ArgumentParser()
-parser.add_argument("-o", "-output", help="Provide the names of folders created with GRAB, seperate by commas")
-parser.add_argument("-f", "-file", help="Provide file with paths seperated by returns")
+parser.add_argument("-o", "-output", help="Provide the names of folders created with GRAB, seperate by commas (no spaces)")
+parser.add_argument("-f", "-file", help="Provide file with paths seperated by returns (newlines)")
 parser.add_argument("-t", "-title", help="Provide title of blast custom blast database")
 args = parser.parse_args()
 
 if args.o != None:
     if args.f != None:
         ## Create an exit point if improper variables are present
-        print('Please use only one flag when entering direcoty names')
+        print('Please use only one flag when entering directory names')
         exit()
 
         
 ## Check for output or file of paths
-if args.o == None:
-    if args.f == None:
-        if os.path.exists("GRAB_Output/"):
+if args.t == None:
+    if args.o == None:
+        if args.f == None:
+            if os.path.exists("GRAB_Output/"):
             
-            ## Check if Genomes are zipped
-            os.system('ls GRAB_Output/Genomes/ | head -n 1 > tmp')
-            x = open('tmp', 'r').read()
-            os.remove('tmp')
-            x = x.strip()
-            y = x[-2:]
+                ## Check if Genomes are zipped
+                os.system('ls GRAB_Output/Genomes/ | head -n 1 > tmp')
+                x = open('tmp', 'r').read()
+                os.remove('tmp')
+                x = x.strip()
+                y = x[-2:]
 
-            ## Unzip genomes if necessary
-            if y == 'gz':
-                os.system('gunzip GRAB_Output/Genomes/*.gz')
-            os.system('mkdir GRAB_Output/GRAB_DB')
-            os.system('cat GRAB_Output/Genomes/*.fna > GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta')
-            os.system('makeblastdb -in GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Output/GRAB_DB/GRAB_DB -title "GRAB_DB"')
+                ## Unzip genomes if necessary
+                if y == 'gz':
+                    os.system('gunzip GRAB_Output/Genomes/*.gz')
+                os.system('mkdir GRAB_Output/GRAB_DB')
+                os.system('cat GRAB_Output/Genomes/*.fna > GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta')
+                os.system('makeblastdb -in GRAB_Output/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Output/GRAB_DB/GRAB_DB -title "GRAB_DB"')
     
-        else:
-            ## Create an exit point if improper variables are present
-            print('Please enter a directory name from the output of GRAB with -o or -f options or run GRAB.py without naming an output directory before running this script')
-            exit()
+            else:
+                ## Create an exit point if improper variables are present
+                print('Please enter a directory name from the output of GRAB with -o or -f options or run GRAB.py without naming an output directory before running this script')
+                exit()
 
-    if args.f != None:
-        my_list = [line.strip().split('\n') for line in open(args.f)]
-        my_list = [i[0] for i in my_list]
+        if args.f != None:
+            my_list = [line.strip().split('\n') for line in open(args.f)]
+            my_list = [i[0] for i in my_list]
         
-        ## Check if input is present (Watch out for empty newline characters)
+            ## Check if input is present (Watch out for empty newline characters)
+            for i in range(0, len(my_list)):
+                if os.path.exists(my_list[i]):
+                    continue
+                else:
+                    print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB.py in the same folder as this script')
+                    exit()
+              ## Create Named Directory
+            if os.path.exists("GRAB_Combined/"):
+                os.system('rm -r GRAB_Combined/')
+            os.system('mkdir GRAB_Combined')
+            os.system('mkdir GRAB_Combined/Combined_Genomes')
+            os.system('mkdir GRAB_Combined/GRAB_DB')
+    
+            for i in range(0, len(my_list)):
+
+                ## Check if Genomes are unzipped
+                check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
+                os.system(check_zip)
+                x = open('tmp', 'r').read()
+                os.remove('tmp')
+                x = x.strip()
+                y = x[-2:]
+
+                ## Unzip genomes if necessary
+                if y == 'gz':
+                    unzip_command = 'gunzip ' + str(my_list[i])+'/Genomes/*.gz'
+                    os.system(unzip_command)
+
+                ## Copy and overwrite files to new directory
+                move_command = '\cp -r '+str(my_list[i])+'/Genomes/*.fna GRAB_Combined/Combined_Genomes/'
+                os.system(move_command)
+
+
+            ## Cat Genomes and create fasta
+            os.system('cat GRAB_Combined/Combined_Genomes/*.fna > GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta')
+    
+            ## Make BLAST DB
+            os.system('makeblastdb -in GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/GRAB_DB/GRAB_DB -title "GRAB_DB"')   
+
+
+        
+    if args.o != None:
+
+        my_list = args.o.split(",")
+    
+        ## Check if input is present
         for i in range(0, len(my_list)):
             if os.path.exists(my_list[i]):
                 continue
             else:
-                print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB in the same folder as this script')
+                print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB.py in the same folder as this script')
                 exit()
-          ## Create Named Directory
+    
+        ## Create Named Directory
         if os.path.exists("GRAB_Combined/"):
             os.system('rm -r GRAB_Combined/')
         os.system('mkdir GRAB_Combined')
         os.system('mkdir GRAB_Combined/Combined_Genomes')
         os.system('mkdir GRAB_Combined/GRAB_DB')
-    
+        
         for i in range(0, len(my_list)):
 
             ## Check if Genomes are unzipped
@@ -85,51 +133,143 @@ if args.o == None:
         os.system('makeblastdb -in GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/GRAB_DB/GRAB_DB -title "GRAB_DB"')   
 
 
+
+### With Custom DB TITLE
+
+
+if args.t != None:
+    if args.o == None:
+        if args.f == None:
+            if os.path.exists("GRAB_Output/"):
+            
+                ## Check if Genomes are zipped
+                os.system('ls GRAB_Output/Genomes/ | head -n 1 > tmp')
+                x = open('tmp', 'r').read()
+                os.remove('tmp')
+                x = x.strip()
+                y = x[-2:]
+
+                ## Unzip genomes if necessary
+                if y == 'gz':
+                    os.system('gunzip GRAB_Output/Genomes/*.gz')
+
+
+                name = str(args.t).strip()
+                ## Make Directory
+                mk_dir = 'mkdir GRAB_Output/' + name
+                os.system(mk_dir)
+                
+                ## Combine Genomes into fasta
+                cat_dir = 'cat GRAB_Output/Genomes/*.fna > GRAB_Output/'+name+'/GRAB_Combined_Genomes.fasta'
+                os.system(cat_dir)
+
+                ## Make BlastDB
+                blast_db = 'makeblastdb -in GRAB_Output/'+name+'/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Output/'+name+'/'+name+' -title "'+ name+'"'
+                os.system(blast_db)
+    
+            else:
+                ## Create an exit point if improper variables are present
+                print('Please enter a directory name from the output of GRAB.py with -o or -f options or run GRAB.py without naming an output directory before running this script')
+                exit()
+
+        if args.f != None:
+            my_list = [line.strip().split('\n') for line in open(args.f)]
+            my_list = [i[0] for i in my_list]
         
-if args.o != None:
-
-    my_list = args.o.split(",")
+            ## Check if input is present (Watch out for empty newline characters)
+            for i in range(0, len(my_list)):
+                if os.path.exists(my_list[i]):
+                    continue
+                else:
+                    print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB.py in the same folder as this script')
+                    exit()
+              ## Create Named Directory
+            if os.path.exists("GRAB_Combined/"):
+                os.system('rm -r GRAB_Combined/')
+            os.system('mkdir GRAB_Combined')
+            os.system('mkdir GRAB_Combined/Combined_Genomes')
+            ## Make Directory
+            name = str(args.t).strip()
+            mk_dir = 'mkdir GRAB_Combined/' + name
+            os.system(mk_dir)
     
-    ## Check if input is present
-    for i in range(0, len(my_list)):
-        if os.path.exists(my_list[i]):
-            continue
-        else:
-            print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB in the same folder as this script')
-            exit()
+            for i in range(0, len(my_list)):
+
+                ## Check if Genomes are unzipped
+                check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
+                os.system(check_zip)
+                x = open('tmp', 'r').read()
+                os.remove('tmp')
+                x = x.strip()
+                y = x[-2:]
+
+                ## Unzip genomes if necessary
+                if y == 'gz':
+                    unzip_command = 'gunzip ' + str(my_list[i])+'/Genomes/*.gz'
+                    os.system(unzip_command)
+
+                ## Copy and overwrite files to new directory
+                move_command = '\cp -r '+str(my_list[i])+'/Genomes/*.fna GRAB_Combined/Combined_Genomes/'
+                os.system(move_command)
+
+
+            ## Cat Genomes and create fasta
+            cat_cmd = 'cat GRAB_Combined/Combined_Genomes/*.fna > GRAB_Combined/'+name+'/GRAB_Combined_Genomes.fasta'
+            os.system(cat_cmd)
     
-    ## Create Named Directory
-    if os.path.exists("GRAB_Combined/"):
-        os.system('rm -r GRAB_Combined/')
-    os.system('mkdir GRAB_Combined')
-    os.system('mkdir GRAB_Combined/Combined_Genomes')
-    os.system('mkdir GRAB_Combined/GRAB_DB')
+            ## Make BLAST DB
+            blast_cmd = 'makeblastdb -in GRAB_Combined/'+name+'/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/'+name+'/'+name+' -title "'+name+'"'
+            os.system(blast_cmd)   
+
+
+        
+    if args.o != None:
+
+        my_list = args.o.split(",")
     
-    for i in range(0, len(my_list)):
+        ## Check if input is present
+        for i in range(0, len(my_list)):
+            if os.path.exists(my_list[i]):
+                continue
+            else:
+                print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB.py in the same folder as this script')
+                exit()
+    
+        ## Create Named Directory
+        if os.path.exists("GRAB_Combined/"):
+            os.system('rm -r GRAB_Combined/')
+        os.system('mkdir GRAB_Combined')
+        os.system('mkdir GRAB_Combined/Combined_Genomes')
+        ## Make Directory
+        name = str(args.t).strip()
+        mk_dir = 'mkdir GRAB_Combined/' + name
+        os.system(mk_dir)
+        
+        for i in range(0, len(my_list)):
 
-        ## Check if Genomes are unzipped
-        check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
-        os.system(check_zip)
-        x = open('tmp', 'r').read()
-        os.remove('tmp')
-        x = x.strip()
-        y = x[-2:]
+            ## Check if Genomes are unzipped
+            check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
+            os.system(check_zip)
+            x = open('tmp', 'r').read()
+            os.remove('tmp')
+            x = x.strip()
+            y = x[-2:]
 
-        ## Unzip genomes if necessary
-        if y == 'gz':
-            unzip_command = 'gunzip ' + str(my_list[i])+'/Genomes/*.gz'
-            os.system(unzip_command)
+            ## Unzip genomes if necessary
+            if y == 'gz':
+                unzip_command = 'gunzip ' + str(my_list[i])+'/Genomes/*.gz'
+                os.system(unzip_command)
 
-        ## Copy and overwrite files to new directory
-        move_command = '\cp -r '+str(my_list[i])+'/Genomes/*.fna GRAB_Combined/Combined_Genomes/'
-        os.system(move_command)
-
-
-    ## Cat Genomes and create fasta
-    os.system('cat GRAB_Combined/Combined_Genomes/*.fna > GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta')
-
-    ## Make BLAST DB
-    os.system('makeblastdb -in GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/GRAB_DB/GRAB_DB -title "GRAB_DB"')   
+            ## Copy and overwrite files to new directory
+            move_command = '\cp -r '+str(my_list[i])+'/Genomes/*.fna GRAB_Combined/Combined_Genomes/'
+            os.system(move_command)
 
 
+        ## Cat Genomes and create fasta
+        cat_cmd = 'cat GRAB_Combined/Combined_Genomes/*.fna > GRAB_Combined/'+name+'/GRAB_Combined_Genomes.fasta'
+        os.system(cat_cmd)
+    
+        ## Make BLAST DB
+        blast_cmd = 'makeblastdb -in GRAB_Combined/'+name+'/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/'+name+'/'+name+' -title "'+name+'"'
+        os.system(blast_cmd)   
 
