@@ -41,10 +41,49 @@ if args.o == None:
             exit()
 
     if args.f != None:
-        my_list = [ line.strip().split('\n') for line in open(args.f)]
+        my_list = [line.strip().split('\n') for line in open(args.f)]
         my_list = [i[0] for i in my_list]
+        
+        ## Check if input is present (Watch out for empty newline characters)
+        for i in range(0, len(my_list)):
+            if os.path.exists(my_list[i]):
+                continue
+            else:
+                print('The directory ' + str(my_list[i]) + ' is not found. Please put the output directory of GRAB in the same folder as this script')
+                exit()
+          ## Create Named Directory
+        if os.path.exists("GRAB_Combined/"):
+            os.system('rm -r GRAB_Combined/')
+        os.system('mkdir GRAB_Combined')
+        os.system('mkdir GRAB_Combined/Combined_Genomes')
+        os.system('mkdir GRAB_Combined/GRAB_DB')
+    
+        for i in range(0, len(my_list)):
 
-        ## To-Do Files
+            ## Check if Genomes are unzipped
+            check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
+            os.system(check_zip)
+            x = open('tmp', 'r').read()
+            os.remove('tmp')
+            x = x.strip()
+            y = x[-2:]
+
+            ## Unzip genomes if necessary
+            if y == 'gz':
+                unzip_command = 'gunzip ' + str(my_list[i])+'/Genomes/*.gz'
+                os.system(unzip_command)
+
+            ## Copy and overwrite files to new directory
+            move_command = '\cp -r '+str(my_list[i])+'/Genomes/*.fna GRAB_Combined/Combined_Genomes/'
+            os.system(move_command)
+
+
+        ## Cat Genomes and create fasta
+        os.system('cat GRAB_Combined/Combined_Genomes/*.fna > GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta')
+
+        ## Make BLAST DB
+        os.system('makeblastdb -in GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/GRAB_DB/GRAB_DB -title "GRAB_DB"')   
+
 
         
 if args.o != None:
@@ -69,7 +108,7 @@ if args.o != None:
     for i in range(0, len(my_list)):
 
         ## Check if Genomes are unzipped
-        check_zip = 'ls ' + str(my_list[0]) + '/Genomes/ | head -n 1 > tmp'
+        check_zip = 'ls ' + str(my_list[i]) + '/Genomes/ | head -n 1 > tmp'
         os.system(check_zip)
         x = open('tmp', 'r').read()
         os.remove('tmp')
@@ -91,7 +130,6 @@ if args.o != None:
 
     ## Make BLAST DB
     os.system('makeblastdb -in GRAB_Combined/GRAB_DB/GRAB_Combined_Genomes.fasta -dbtype nucl -out GRAB_Combined/GRAB_DB/GRAB_DB -title "GRAB_DB"')   
-    
 
 
 
