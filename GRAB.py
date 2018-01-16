@@ -125,7 +125,7 @@ if args.o == None:
     os.system('''awk -F '\t' '{if($13=="Complete Genome") print $21}' GRAB_Output/filtered_table.txt > GRAB_Output/filtered_addresses.txt''')
 
     ## Genome Names
-    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $2,$25,$26,$27,$28,$29,$30,$31}' GRAB_Output/filtered_table.txt > GRAB_Output/genome_names.txt''')
+    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' GRAB_Output/filtered_table.txt > GRAB_Output/genome_names.txt''')
     ## Make new directory
     os.system('mkdir GRAB_Output/Genomes')
 
@@ -158,7 +158,7 @@ if args.o != None:
     os.system(awk_name)
 
 
-    genome_name = '''awk -F '\t' '{if($13=="Complete Genome") print $2,$25,$26,$27,$28,$29,$30,$31}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/genome_names.txt'
+    genome_name = '''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/genome_names.txt'
     os.system(genome_name)
     ## Make new directory
     dir_name = 'mkdir '+str(args.o)+'/Genomes'
