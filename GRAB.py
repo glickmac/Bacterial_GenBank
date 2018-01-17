@@ -5,6 +5,7 @@ import os
 
 ## Make commandline arguments with ArgParse
 parser = argparse.ArgumentParser()
+parser.add_argument("-m", "-material", help="Provide the type of information you want: Options include genomic (default), coding (Coding Regions), or protein (Protein Sequences)") 
 parser.add_argument("-q", "-query", help="Provide the full or partial name of the organisms you want to download, seperate by commas")
 parser.add_argument("-f", "-file", help="Provide file with full or partial names seperated by returns")
 parser.add_argument("-l", "-level", help="Provide the taxonomic level you wish to query: Options include Phylum, Order, Class, Family, Genus, Species, Subspecies")
@@ -40,7 +41,12 @@ if args.l == None:
     print('Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
     exit()
 
-    
+
+## Make sure 
+if args.m not in [None,'coding','protein','genomic']:
+    print('Please enter type of genetic information: Options include "genomic", "coding" (Coding regions), or "protein"')
+    exit()
+
 ## Define Taxonomic Category
 if args.l.lower() == 'phylum':
     col_num = 23
@@ -96,7 +102,6 @@ if args.f == None:
         my_list = args.q.split(",")
         mask = merged_inner.iloc[:,col_num].apply(_grep, list_to_grep = my_list)
         test = merged_inner[mask]
-        ## Clean up data table
      
         if args.o == None:
             test.to_csv('GRAB_Output/filtered_table.txt',sep='\t')
@@ -109,7 +114,6 @@ if args.q == None:
     my_list = [i[0] for i in my_list]
     mask = merged_inner.iloc[:,col_num].apply(_grep, list_to_grep = my_list)
     test = merged_inner[mask]
-    ## Clean up data table
     
     if args.o == None:
         test.to_csv('GRAB_Output/filtered_table.txt',sep='\t')
@@ -125,15 +129,34 @@ if args.o == None:
     os.system('''awk -F '\t' '{if($13=="Complete Genome") print $21}' GRAB_Output/filtered_table.txt > GRAB_Output/filtered_addresses.txt''')
 
     ## Genome Names
-    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' GRAB_Output/filtered_table.txt > GRAB_Output/genome_names.txt''')
-    ## Make new directory
-    os.system('mkdir GRAB_Output/Genomes')
+    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' GRAB_Output/filtered_table.txt > GRAB_Output/taxonomy_names.txt''')
 
+    
+    ## Make new directory depending on user argument
+    if args.m == 'coding':
+        dir_name = 'mkdir GRAB_Output/Coding_region'
+    elif args.m == 'protein':
+        dir_name = 'mkdir GRAB_Output/Proteins'
+    else:
+        dir_name = 'mkdir GRAB_Output/Genomes'
+
+    os.system(dir_name)
+
+
+    ## Set Directory Location
+    if args.m == 'coding':
+        dir_location = 'GRAB_Output/Coding_region '
+    elif args.m == 'protein':
+        dir_location = 'GRAB_Output/Proteins '
+    else:
+        dir_location = 'GRAB_Output/Genomes '
+
+    ## Download from filtered addresses
     with open('GRAB_Output/filtered_addresses.txt', 'r') as f:
         wgets = f.readlines()
 
 
-    print('Downloading ' + str(len(wgets)) + ' complete genomes into genomes folder...this may take a while')
+    print('Downloading ' + str(len(wgets)) + ' items from NCBI ftp...this may take a while')
           
     for i in range(0,len(wgets)):
         ## loop to format and call wget
@@ -142,11 +165,21 @@ if args.o == None:
 
         ## Split the genome to recieve only genomic information
         wsplit = wlink.split('/')
-        genome = str(wsplit[9])
-        genome = genome.replace('\n', '')
+        index = str(wsplit[9])
+        index = index.replace('\n', '')
 
-        ## Create new system call
-        new_wget = 'wget -P GRAB_Output/Genomes '+wlink+'/'+genome+'_genomic.fna.gz -q --show-progress'
+
+         ## Set the download to the appropiate folder
+        if args.m == 'coding':
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'cds_from_genomic.fna.gz -q --show-progress'
+        
+        elif args.m == 'protein':
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_protein.faa.gz -q --show-progress'
+        
+        else:
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_genomic.fna.gz -q --show-progress'
+
+            
         os.system(new_wget)
 
 
@@ -158,20 +191,38 @@ if args.o != None:
     os.system(awk_name)
 
 
-    genome_name = '''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/genome_names.txt'
+    genome_name = '''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/taxonomy_names.txt'
     os.system(genome_name)
+
+
     ## Make new directory
-    dir_name = 'mkdir '+str(args.o)+'/Genomes'
+    if args.m == 'coding':
+        dir_name = 'mkdir '+str(args.o)+'/Coding_region'
+    elif args.m == 'protein':
+        dir_name = 'mkdir '+str(args.o)+'/Proteins'
+    else:
+        dir_name = 'mkdir '+str(args.o)+'/Genomes'
+
     os.system(dir_name)
 
 
     dir_address = str(args.o)+'/filtered_addresses.txt'
-    dir_location = str(args.o)+'/Genomes '
+
+        ## Set Directory Location
+    if args.m == 'coding':
+        dir_location = str(args.o)+'/Coding_region '
+    elif args.m == 'protein':
+        dir_location = str(args.o)+'/Proteins '
+    else:
+        dir_location = str(args.o)+'/Genomes '
+    
+
+
     with open(dir_address, 'r') as f:
           wgets = f.readlines()
 
 
-    print('Downloading ' + str(len(wgets)) + ' complete genomes into genomes folder...this may take a while')
+    print('Downloading ' + str(len(wgets)) + ' items from NCBI ftp...this may take a while')
           
     for i in range(0,len(wgets)):
         ## loop to format and call wget
@@ -180,11 +231,21 @@ if args.o != None:
 
         ## Split the genome to recieve only genomic information
         wsplit = wlink.split('/')
-        genome = str(wsplit[9])
-        genome = genome.replace('\n', '')
+        index = str(wsplit[9])
+        index = index.replace('\n', '')
 
+
+        ## Set the download to the appropiate folder
+        if args.m == 'coding':
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'cds_from_genomic.fna.gz -q --show-progress'
+        
+        elif args.m == 'protein':
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_protein.faa.gz -q --show-progress'
+        
+        else:
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_genomic.fna.gz -q --show-progress'
+        
         ## Create new system call
-        new_wget = 'wget -P '+dir_location+wlink+'/'+genome+'_genomic.fna.gz -q --show-progress'
         os.system(new_wget)
 
 
