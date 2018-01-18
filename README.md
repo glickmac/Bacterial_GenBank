@@ -12,11 +12,11 @@
 
 ## <a name="intro"></a>What is GRAB?
 
-ViruSpy is a pipeline designed for virus 
+GRAB is short for Genomic Retrieval and Blast Database Creation. Grab consists of python scripts to mine the NCBI FTP sites for genomes, coding regions, or proteins of interest. 
 
 ## <a name="importance"></a>Why is this important?
 
-Viruses compose a large amount of the genomic biodiversity on the planet, but only a small fraction of the viruses that exist are known. 
+GRAB automates the retrieval of genomic information to build custom BLAST databases. The current method of finding genomic information is laborious and time intensive and human error may result in missed information. GRAB provides an automated system to overcome current limitations in creating custom databases. 
 
 ## <a name="workflow"></a>GRAB Workflow
 
@@ -25,22 +25,56 @@ Viruses compose a large amount of the genomic biodiversity on the planet, but on
 
 ### Useful References
 
-#### Magic-BLAST
+#### Anaconda 
+[Anaconda](https://www.anaconda.com) 
+Anaconda is a package manager to run GRAB on most systems
 
-[BLAST Command Line Manual](https://www.ncbi.nlm.nih.gov/books/NBK279690/)    
-[Magic-BLAST GitHub repo](https://github.com/boratyng/magicblast)    
-[Magic-BLAST NCBI Insights](https://ncbiinsights.ncbi.nlm.nih.gov/2016/10/13/introducing-magic-blast/)    
+#### Bioconda
+[Bioconda](https://bioconda.github.io/)
+Bioconda is a channel that includes import packages notably BLAST
 
-#### MEGAHIT
-
-[MEGAHIT GitHub repo](https://github.com/voutcn/megahit)    
-[MEGAHIT Paper](https://www.ncbi.nlm.nih.gov/pubmed/25609793)    
+#### BLAST
+[BLAST Command Line Manual](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
+The scripts are split to allow a user to create a BLAST database their own way
+ 
+[BLAST Formatting](https://www.biostars.org/p/88944/)  
+A helpful post on BLAST database formatting   
    
 
 ## <a name="install"></a>Installing GRAB
 
 Required software
-+ Magic-BLAST (>= v1.3): [download](https://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST) [documentation](https://boratyng.github.io/magicblast/)
++ Anaconda: [download](https://www.anaconda.com/download/) [documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
++ Bioconda: Install after Anaconda with commands below
+
+```
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+```
+
+#### Download GRAB
+[GRAB Download]()
+
+Create the environment from the GRAB_environment.yml file:
+
+```
+conda env create -f GRAB_environment.yml
+```
+Activate the new environment:
+
+Windows: activate myenv
+macOS and Linux: source activate myenv
+NOTE: Replace myenv with the name of the environment.
+
+
+
+
+
+
+
+conda list
+
 + [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
 + [Samtools](http://www.htslib.org/) (>= version 1.5)
 + [Prinseq](http://prinseq.sourceforge.net/)
