@@ -48,8 +48,7 @@ A helpful post on BLAST command makeblastdb
 
 Required software
 + Anaconda: 
-[download](https://www.anaconda.com/download/) 
-[environment documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
+[download](https://www.anaconda.com/download/) || [environment documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
 
 + Bioconda: Install after Anaconda with commands below
 
