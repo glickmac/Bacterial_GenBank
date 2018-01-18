@@ -147,10 +147,10 @@ GRAB currently operates only in the GRAB directory. The directories from GRAB.py
 ### GRAB.py 
 
 #### Query flag
-The query flag can take more than one input seperated by commas. Here we search for two subspecies of Mycobacterium abscessus: massiliense and boletti
+The query flag can take more than one input seperated by commas. Here we search for two subspecies of Mycobacterium abscessus: massiliense and bolletii
 
 ```
-python GRAB.py -q massiliense,boletti -l subspecies
+python GRAB.py -q massiliense,bolletii -l subspecies
 ```
 
 Output: 
