@@ -38,13 +38,13 @@ def _grep(x, list_to_grep):
 
 if args.l == None:
     ## Create an exit point if improper variables are present
-    print('Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
+    print('Error: -l flag: Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
     exit()
 
 
 ## Make sure 
 if args.m not in [None,'coding','protein','genomic']:
-    print('Please enter type of genetic information: Options include "genomic", "coding" (Coding regions), or "protein"')
+    print('Error: -m flag: Please enter type of genetic information: Options include "genomic", "coding" (Coding regions), or "protein"')
     exit()
 
 ## Define Taxonomic Category
@@ -133,23 +133,19 @@ if args.o == None:
 
     
     ## Make new directory depending on user argument
-    if args.m == 'coding':
-        dir_name = 'mkdir GRAB_Output/Coding_region'
-    elif args.m == 'protein':
+    if args.m == 'protein':
         dir_name = 'mkdir GRAB_Output/Proteins'
     else:
-        dir_name = 'mkdir GRAB_Output/Genomes'
+        dir_name = 'mkdir GRAB_Output/Nucleotides'
 
     os.system(dir_name)
 
 
     ## Set Directory Location
-    if args.m == 'coding':
-        dir_location = 'GRAB_Output/Coding_region '
-    elif args.m == 'protein':
+    if args.m == 'protein':
         dir_location = 'GRAB_Output/Proteins '
     else:
-        dir_location = 'GRAB_Output/Genomes '
+        dir_location = 'GRAB_Output/Nucleotides '
 
     ## Download from filtered addresses
     with open('GRAB_Output/filtered_addresses.txt', 'r') as f:
@@ -171,7 +167,7 @@ if args.o == None:
 
          ## Set the download to the appropiate folder
         if args.m == 'coding':
-            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'cds_from_genomic.fna.gz -q --show-progress'
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_cds_from_genomic.fna.gz -q --show-progress'
         
         elif args.m == 'protein':
             new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_protein.faa.gz -q --show-progress'
@@ -196,12 +192,10 @@ if args.o != None:
 
 
     ## Make new directory
-    if args.m == 'coding':
-        dir_name = 'mkdir '+str(args.o)+'/Coding_region'
-    elif args.m == 'protein':
+    if args.m == 'protein':
         dir_name = 'mkdir '+str(args.o)+'/Proteins'
     else:
-        dir_name = 'mkdir '+str(args.o)+'/Genomes'
+        dir_name = 'mkdir '+str(args.o)+'/Nucleotides'
 
     os.system(dir_name)
 
@@ -209,12 +203,10 @@ if args.o != None:
     dir_address = str(args.o)+'/filtered_addresses.txt'
 
         ## Set Directory Location
-    if args.m == 'coding':
-        dir_location = str(args.o)+'/Coding_region '
-    elif args.m == 'protein':
+    if args.m == 'protein':
         dir_location = str(args.o)+'/Proteins '
     else:
-        dir_location = str(args.o)+'/Genomes '
+        dir_location = str(args.o)+'/Nucleotides '
     
 
 
@@ -237,7 +229,7 @@ if args.o != None:
 
         ## Set the download to the appropiate folder
         if args.m == 'coding':
-            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'cds_from_genomic.fna.gz -q --show-progress'
+            new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_cds_from_genomic.fna.gz -q --show-progress'
         
         elif args.m == 'protein':
             new_wget = 'wget -P '+dir_location+wlink+'/'+index+'_protein.faa.gz -q --show-progress'
