@@ -25,12 +25,9 @@ GRAB automates the retrieval of genomic information to build custom BLAST databa
 
 ### Useful References
 
-#### Anaconda 
 [Anaconda](https://www.anaconda.com)
 
 Anaconda is a package manager to run GRAB on most systems
-
-#### Bioconda
 
 [Bioconda](https://bioconda.github.io/)
 
@@ -134,7 +131,7 @@ Either -o or -f is required, however please use only one flag at a time. The -o 
 
 | Option     | Description                                     |
 |------------|-------------------------------------------------|
-| **-o** or **-f**   | -o: -output of GRAB.py seperated by commas **(no spaces)** or -f: -file with GRAB.py outputs seperated by new lines  |
+| **-o** or  **-f**    | -o: -output of GRAB.py seperated by commas **(no spaces)** or -f: -file with GRAB.py outputs seperated by new lines  |
 
 #### Optional arguments:
 
