@@ -58,9 +58,7 @@ conda config --add channels conda-forge
 conda config --add channels bioconda
 ```
 
-### Download GRAB
-
-[GRAB Download](https://github.com/glickmac/GRAB/raw/master/GRAB.zip)
+### [Download GRAB](https://github.com/glickmac/GRAB/raw/master/GRAB.zip)
 
 #### Unzip GRAB and CD into Directory
 
