@@ -7,12 +7,12 @@
 [Quickstart](#quickstart)    
 [Installing GRAB](#install)    
 [GRAB Usage](#usage)    
-[GRAB Testing and Validation](#testing_and_validation)    
+[GRAB Examples with Pictures](#testing_and_validation)    
 [Additional Functionality](#additional)    
 
 ## <a name="intro"></a>What is GRAB?
 
-GRAB is short for Genomic Retrieval and Blast Database Creation. Grab consists of python scripts to mine the NCBI FTP sites for genomes, coding regions, or proteins of interest. 
+GRAB is short for Genomic Retrieval and Blast Database Creation. GRAB currently is only able to mine **bacterial** genomic information by taxonomy. GRAB consists of python scripts to mine the NCBI FTP sites for genomes, coding regions, or proteins of interest. 
 
 ## <a name="importance"></a>Why is this important?
 
@@ -42,9 +42,9 @@ Bioconda is a channel that includes import packages notably BLAST
 
 The scripts are split to allow a user to create a BLAST database their own way
  
-[BLAST Formatting](https://www.biostars.org/p/88944/) 
+[BLAST makeblastdb Example](https://www.haktansuren.com/blast-makeblastdb/) 
 
-A helpful post on BLAST database formatting   
+A helpful post on BLAST command makeblastdb 
    
 
 ## <a name="install"></a>Installing GRAB
@@ -62,7 +62,7 @@ conda config --add channels conda-forge
 conda config --add channels bioconda
 ```
 
-#### Download GRAB
+### Download GRAB
 
 [GRAB Download](https://github.com/glickmac/GRAB/raw/master/GRAB.zip)
 
@@ -93,7 +93,7 @@ git clone https://github.com/glickmac/GRAB
 
 ## <a name="usage"></a><a name="quickstart"></a>GRAB Usage
 
-GRAB consists of two scripts. One to pull genomic, coding regions, or proteins from bacteria of choice and another to automatically build a database. 
+GRAB consists of two python scripts. One to pull genomic, coding regions, or proteins from bacteria of choice and another to automatically build a database. 
 
 + GRAB.py Help: 
 
@@ -140,16 +140,36 @@ Either -o or -f is required, however please use only one flag at a time. The -o 
 
 | Option    | Description |
 |-----------|-------------|
-| **-m**    |-material: Material to build database: options include *nucl* **(DEFAULT)**, *protein* (Prot)|
+| **-m**    |-material: Material to build database: options include *nucl* (Nucleotide, **DEFAULT**), *prot* (Proteins)|
 | **-t**    |-title: Create a custom name for database, GRAB_DB **(DEFAULT)** |
 
 
+## <a name="testing_and_validation"></a>GRAB Examples with Pictures
+
+GRAB currently operates only in the GRAB directory. The directories from GRAB.py are needed to run Build.py. You can remove the BLAST database (GRAB_DB is the default) created by Build.py and use it as a functional [blast db](https://www.biostars.org/p/88944/) for blastn, blastx, tblastx, blastp. 
+
+### GRAB.py 
+
+#### Query flag
+The query flag can take more than one input seperated by commas. Here we search for two subspecies of Mycobacterium abscessus: massiliense and boletti
+
+```
+python GRAB.py -q massiliense,boletti -l subspecies
+```
+
+Output: 
+
+The default output directory is **GRAB_Output** 
+
+
+The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check the retrieval was successful
 
 
 
-## <a name="testing_and_validation"></a>ViruSpy Testing and Validation
+
+
+
+## <a name="additional"></a>Edge Cases
 
 ### Edge Cases
 Myco + Bact avium example for edge case
-
-## <a name="additional"></a>Additional Functionality
