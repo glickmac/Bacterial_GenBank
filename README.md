@@ -74,8 +74,10 @@ conda env create -f GRAB_environment.yml
 ```
 Activate the new environment:
 
-Windows: activate myenv
-macOS and Linux: source activate myenv
+Windows: ```activate myenv```
+
+macOS and Linux: ```source activate myenv```
+
 NOTE: Replace myenv with the name of the environment.
 
 #### Other installations (Git)
