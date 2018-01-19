@@ -206,8 +206,38 @@ Much like the GRAB.py script, An output flag (**-o**) or a file flag (**-f**) is
 python Build.py -o GRAB_Output,Abscessus_subspecies 
 ```
 Output:
+The default output directory is **GRAB_Combined** and the default BLAST database name is **GRAB_DB**. The GRAB_DB can now be referenced for BLAST searches with the path /GRAB_DB/GRAB_DB. 
+
+
+#### Material Flag
+The material flag (**-m**) is used to specify the creation of a nucleotide (**DEFAULT**) or protein BLAST database. The flag options are nucl (nucleotide) or prot (protein). The flag is optional and nucleotide is the default if no -m option is used. 
+
+
+```
+python Build.py -m nucl -o GRAB_Output,Abscessus_subspecies 
+```
+
+Output:
+The output of the above code should be the same as the Output and File flags. The default output directory is **GRAB_Combined** and the default BLAST database name is **GRAB_DB**.
+
+#### Title flag
+The title flag (**-t**) allows the user to label the newly created BLAST database. 
+
+```
+python Build.py -m nucl -o GRAB_Output,Abscessus_subspecies -t NTM_DB
+```
+
+Output:
+The default output directory is **GRAB_Combined** and the BLAST database name is now defined by the user, in this case **NTM_DB**.
 
 ## <a name="additional"></a>Edge Cases
 
 ### Edge Cases
-Myco + Bact avium example for edge case
+There exists edge cases which can affect the retrieval in taxonomic querying in GRAB.py. For example, at the species level if the search term Abscessus is used to find Mycobacterial Abscessus species, other bacteria with the term Abscessus will be present in the retreival. To counter, a user must enter the full search term in the query or file. 
+
+For example:
+
+```
+python GRAB.py -m genomic -q 'Mycobacterium abscessus' -l species -o Abscessus_species
+```
+
