@@ -156,6 +156,8 @@ python GRAB.py -q massiliense,bolletii -l subspecies
 Output: 
 The default output directory is **GRAB_Output** 
 
+<img src="https://github.com/glickmac/GRAB/blob/master/images/Query_taxa.png" height="400" width="450">
+
 
 The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check if the retrieval was successful. By without any other flags, the genomes are by default downloaded from the NCBI FTP.
 
@@ -167,6 +169,8 @@ python GRAB.py -f demo/file_flag_demo.txt -l subspecies
 ```
 Output: 
 The default output directory is **GRAB_Output**. This will overwrite the previous directory. The output directory will contain three Mycobacterium Avium Complex Subspecies. 
+
+<img src="https://github.com/glickmac/GRAB/blob/master/images/query_output.png" height="300" width="350">
 
 
 #### Download Genes / Proteins with Material Flag
@@ -184,6 +188,8 @@ The default output directory is **GRAB_Output**
 Now the output directory contains a folder Proteins and three text files. Using the coding or genomic flag will result in the folder being called Nucleotides. 
 
 
+<img src="https://github.com/glickmac/GRAB/blob/master/images/Protein_Default.png" height="300" width="350">
+
 #### Named Output Directory 
 The output flag (**-o**) allows for a user to specify the title of the output directory. **Caution**: if no directory is specified the default is GRAB_Output and that directory will be overwritten each time GRAB.py is run. Any output directory will be overwitten if it exists prior to running GRAB.py. 
 
@@ -194,6 +200,10 @@ python GRAB.py -m genomic -q massiliense,bolletii -l subspecies -o Abscessus_sub
 Output:
 
 A new output directory will appear in the folder titled Abscessus_subspecies. Grab.py can be run multiple times to create directories with different organisms or pull from mulitple taxonomic levels. 
+
+
+<img src="https://github.com/glickmac/GRAB/blob/master/images/protein_named.png" height="300" width="350">
+
 
 
 ### Build.py
@@ -208,6 +218,8 @@ python Build.py -o GRAB_Output,Abscessus_subspecies
 Output:
 The default output directory is **GRAB_Combined** and the default BLAST database name is **GRAB_DB**. The GRAB_DB can now be referenced for BLAST searches with the path /GRAB_DB/GRAB_DB. 
 
+
+<img src="https://github.com/glickmac/GRAB/blob/master/images/Build_default.png" height="300" width="350">
 
 #### Material Flag
 The material flag (**-m**) is used to specify the creation of a nucleotide (**DEFAULT**) or protein BLAST database. The flag options are nucl (nucleotide) or prot (protein). The flag is optional and nucleotide is the default if no -m option is used. 
