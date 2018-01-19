@@ -154,14 +154,49 @@ python GRAB.py -q massiliense,bolletii -l subspecies
 ```
 
 Output: 
-
 The default output directory is **GRAB_Output** 
 
 
-The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check the retrieval was successful
+The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check if the retrieval was successful. By without any other flags, the genomes are by default downloaded from the NCBI FTP.
+
+#### File flag
+The file flag must contain a text file seperated by new lines. An example of a properly formatted file is given in demo/file_flag_demo.txt. 
+
+```
+python GRAB.py -f demo/file_flag_demo.txt -l subspecies
+```
+Output: 
+The default output directory is **GRAB_Output**. This will overwrite the previous directory. The output directory will contain three Mycobacterium Avium Complex Subspecies. 
 
 
+#### Download Genes / Proteins with Material Flag
+The material flag (**-m**) contains three options 
++ genomic (Full Genomes)
++ coding (Gene Sequences)
++ protein (Proteins)
 
+```
+python GRAB.py -m protein -q massiliense,bolletii -l subspecies
+```
+Output:
+The default output directory is **GRAB_Output** 
+
+Now the output directory contains a folder Proteins and three text files. Using the coding or genomic flag will result in the folder being called Nucleotides. 
+
+
+#### Named Output Directory 
+The output flag allows for a user to specify the title of the output directory. **Caution**: if no directory is specified the default is GRAB_Output and that directory will be overwritten each time GRAB.py is run. Any output directory will be overwitten if it exists prior GRAB.py. 
+
+```
+python GRAB.py -m genomic -q massiliense,bolletii -l subspecies -o Abscessus_subspecies
+```
+
+Output:
+
+A new output directory will appear in the folder titled Abscessus_subspecies. Grab.py can be run multiple times to create directories with different organisms or pull from mulitple taxonomic levels. 
+
+
+### Build.py
 
 
 
