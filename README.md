@@ -147,7 +147,7 @@ GRAB currently operates only in the GRAB directory. The directories from GRAB.py
 ### GRAB.py 
 
 #### Query flag
-The query flag can take more than one input seperated by commas. Here we search for two subspecies of Mycobacterium abscessus: massiliense and bolletii
+The query flag (**-q**) can take more than one input seperated by commas. Here we search for two subspecies of Mycobacterium abscessus: massiliense and bolletii
 
 ```
 python GRAB.py -q massiliense,bolletii -l subspecies
@@ -160,7 +160,7 @@ The default output directory is **GRAB_Output**
 The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check if the retrieval was successful. By without any other flags, the genomes are by default downloaded from the NCBI FTP.
 
 #### File flag
-The file flag must contain a text file seperated by new lines. An example of a properly formatted file is given in demo/file_flag_demo.txt. 
+The file flag (**-f**) must contain a text file seperated by new lines. An example of a properly formatted file is given in demo/file_flag_demo.txt. 
 
 ```
 python GRAB.py -f demo/file_flag_demo.txt -l subspecies
@@ -185,7 +185,7 @@ Now the output directory contains a folder Proteins and three text files. Using 
 
 
 #### Named Output Directory 
-The output flag allows for a user to specify the title of the output directory. **Caution**: if no directory is specified the default is GRAB_Output and that directory will be overwritten each time GRAB.py is run. Any output directory will be overwitten if it exists prior GRAB.py. 
+The output flag (**-o**) allows for a user to specify the title of the output directory. **Caution**: if no directory is specified the default is GRAB_Output and that directory will be overwritten each time GRAB.py is run. Any output directory will be overwitten if it exists prior to running GRAB.py. 
 
 ```
 python GRAB.py -m genomic -q massiliense,bolletii -l subspecies -o Abscessus_subspecies
@@ -197,8 +197,15 @@ A new output directory will appear in the folder titled Abscessus_subspecies. Gr
 
 
 ### Build.py
+Build is a script to build a blast database automatically from multiple runs of GRAB.py. The input to Build.py must be the directory names of GRAB.py. **Be careful to select libraries with the same genetic material**
 
+#### Output flag and File flag
+Much like the GRAB.py script, An output flag (**-o**) or a file flag (**-f**) is needed to select all outputs of GRAB.py.
 
+```
+python Build.py -o GRAB_Output,Abscessus_subspecies 
+```
+Output:
 
 ## <a name="additional"></a>Edge Cases
 
