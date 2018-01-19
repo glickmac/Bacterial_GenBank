@@ -20,7 +20,7 @@ GRAB automates the retrieval of genomic information to build custom BLAST databa
 
 ## <a name="workflow"></a>GRAB Workflow
 
-<img src="https://github.com/NCBI-Hackathons/VirusCore/blob/master/workflow.png" height="450" width="650">
+Insert Image Here
 
 
 ### Useful References
