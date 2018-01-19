@@ -156,7 +156,7 @@ python GRAB.py -q massiliense,bolletii -l subspecies
 Output: 
 The default output directory is **GRAB_Output** 
 
-<img src="https://github.com/glickmac/GRAB/blob/master/images/Query_taxa.png" height="400" width="450">
+<img src="https://github.com/glickmac/GRAB/blob/master/images/Query_taxa.png" height="300" width="400">
 
 
 The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check if the retrieval was successful. By without any other flags, the genomes are by default downloaded from the NCBI FTP.
