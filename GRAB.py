@@ -49,19 +49,19 @@ if args.m not in [None,'coding','protein','genomic']:
 
 ## Define Taxonomic Category
 if args.l.lower() == 'phylum':
-    col_num = 23
+    col_num = 12
 elif args.l.lower() == 'class':
-    col_num = 24
+    col_num = 13
 elif args.l.lower() == 'order':
-    col_num = 25
+    col_num = 14
 elif args.l.lower() == 'family':
-    col_num = 26
+    col_num = 15
 elif args.l.lower() == 'genus':
-    col_num = 27
+    col_num = 16
 elif args.l.lower() == 'species':
-    col_num = 28
+    col_num = 17
 elif args.l.lower() == 'subspecies':
-    col_num = 29
+    col_num = 18
 else:
     ## Create an exit point if improper variables are present
     print('Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
@@ -126,10 +126,10 @@ if args.q == None:
 ## Default Directory Name
 if args.o == None:
     ## Run Awk command to check for complete genomes
-    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $21}' GRAB_Output/filtered_table.txt > GRAB_Output/filtered_addresses.txt''')
+    os.system('''awk -F '\t' '{if($9=="Complete Genome") print $12}' GRAB_Output/filtered_table.txt > GRAB_Output/filtered_addresses.txt''')
 
     ## Genome Names
-    os.system('''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' GRAB_Output/filtered_table.txt > GRAB_Output/taxonomy_names.txt''')
+    os.system('''awk -F '\t' '{if($9=="Complete Genome") print $2,$14,$15,$16,$17,$18,$19,$20}' GRAB_Output/filtered_table.txt > GRAB_Output/taxonomy_names.txt''')
 
     
     ## Make new directory depending on user argument
@@ -183,11 +183,11 @@ if args.o == None:
 ## Custom Directory Name
 if args.o != None:
     ## Run Awk command to check for complete genomes
-    awk_name = '''awk -F '\t' '{if($13=="Complete Genome") print $21}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/filtered_addresses.txt'
+    awk_name = '''awk -F '\t' '{if($9=="Complete Genome") print $12}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/filtered_addresses.txt'
     os.system(awk_name)
 
 
-    genome_name = '''awk -F '\t' '{if($13=="Complete Genome") print $2,$26,$27,$28,$29,$30,$31,$32}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/taxonomy_names.txt'
+    genome_name = '''awk -F '\t' '{if($9=="Complete Genome") print $2,$14,$15,$16,$17,$18,$19,$20}' '''+str(args.o)+'/filtered_table.txt > '+str(args.o)+'/taxonomy_names.txt'
     os.system(genome_name)
 
 
