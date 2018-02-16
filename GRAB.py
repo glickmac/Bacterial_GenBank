@@ -42,6 +42,10 @@ if args.l == None:
     exit()
 
 
+if args.o in ['data','demo']:
+    print('Error: Please choose a different output directory name to avoid overwritting necessary files')
+    exit()
+
 ## Make sure 
 if args.m not in [None,'coding','protein','genomic']:
     print('Error: -m flag: Please enter type of genetic information: Options include "genomic", "coding" (Coding regions), or "protein"')
