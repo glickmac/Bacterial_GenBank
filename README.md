@@ -44,7 +44,15 @@ Anaconda is a package manager to run GRAB on most systems
 
 Bioconda is a channel that includes import packages notably BLAST
 
+[BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
+
+BLAST is a sequence searching algorithm that searches for a query against a database
+
 #### BLAST
+
+[Install Command Line BLAST](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
+
+Make sure to add ncbi-blast to the system environment path
 
 [BLAST Command Line Manual](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
 
