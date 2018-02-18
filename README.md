@@ -50,7 +50,7 @@ BLAST is a sequence searching algorithm that searches for a query against a data
 
 #### BLAST
 
-[Install Command Line BLAST](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
+[Install Command Line BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
 
 Make sure to add ncbi-blast to the system environment path
 
@@ -66,6 +66,8 @@ A helpful post on BLAST command makeblastdb
 ## <a name="install"></a>Installing GRAB
 
 Required software
++ NCBI-BLAST: [download](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
+Must be in environmental path
 + Anaconda: 
 [download](https://www.anaconda.com/download/) || [environment documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
 
@@ -93,11 +95,7 @@ conda env create -f GRAB_environment.yml
 ```
 Activate the new environment:
 
-Windows: ```activate myenv```
-
-macOS and Linux: ```source activate myenv```
-
-NOTE: Replace myenv with the name of the environment.
+macOS and Linux: ```source activate GRAB```
 
 #### Other installations (Git)
 
