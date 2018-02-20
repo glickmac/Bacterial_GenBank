@@ -1,3 +1,13 @@
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![Python](https://img.shields.io/badge/python-v2.7%20%2F%20v3.6-blue.svg)
+[![GitHub Issues](https://img.shields.io/github/issues/anfederico/Stocktalk.svg)](https://github.com/glickmac/GRAB/issues)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+
 # GRAB
 
 ## Table of Contents
@@ -20,7 +30,8 @@ GRAB automates the retrieval of genomic information to build custom BLAST databa
 
 ## <a name="workflow"></a>GRAB Workflow
 
-Insert Image Here
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/GRAB.png" width=60%></p>
+
 
 
 ### Useful References
@@ -33,7 +44,15 @@ Anaconda is a package manager to run GRAB on most systems
 
 Bioconda is a channel that includes import packages notably BLAST
 
+[BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
+
+BLAST is a sequence searching algorithm that searches for a query against a database
+
 #### BLAST
+
+[Install Command Line BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
+
+Make sure to add ncbi-blast to the system environment path
 
 [BLAST Command Line Manual](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
 
@@ -47,6 +66,8 @@ A helpful post on BLAST command makeblastdb
 ## <a name="install"></a>Installing GRAB
 
 Required software
++ NCBI-BLAST: [download](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
+Must be in environmental path
 + Anaconda: 
 [download](https://www.anaconda.com/download/) || [environment documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
 
@@ -74,11 +95,7 @@ conda env create -f GRAB_environment.yml
 ```
 Activate the new environment:
 
-Windows: ```activate myenv```
-
-macOS and Linux: ```source activate myenv```
-
-NOTE: Replace myenv with the name of the environment.
+macOS and Linux: ```source activate GRAB```
 
 #### Other installations (Git)
 
@@ -156,7 +173,7 @@ python GRAB.py -q massiliense,bolletii -l subspecies
 Output: 
 The default output directory is **GRAB_Output** 
 
-<img src="https://github.com/glickmac/GRAB/blob/master/images/Query_taxa.png" height="300" width="400">
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/Query_taxa.png" width=80%></p>
 
 
 The directory contains a folder Nucleotides and three text files. Taxonomy names is a good file to check if the retrieval was successful. By without any other flags, the genomes are by default downloaded from the NCBI FTP.
@@ -188,7 +205,7 @@ The default output directory is **GRAB_Output**
 Now the output directory contains a folder Proteins and three text files. Using the coding or genomic flag will result in the folder being called Nucleotides. 
 
 
-<img src="https://github.com/glickmac/GRAB/blob/master/images/Protein_Default.png" height="300" width="350">
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/Protein_Default.png" width=80%></p>
 
 #### Named Output Directory 
 The output flag (**-o**) allows for a user to specify the title of the output directory. **Caution**: if no directory is specified the default is GRAB_Output and that directory will be overwritten each time GRAB.py is run. Any output directory will be overwitten if it exists prior to running GRAB.py. 
@@ -201,8 +218,7 @@ Output:
 
 A new output directory will appear in the folder titled Abscessus_subspecies. Grab.py can be run multiple times to create directories with different organisms or pull from mulitple taxonomic levels. 
 
-
-<img src="https://github.com/glickmac/GRAB/blob/master/images/protein_named.png" height="300" width="350">
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/protein_named.png" width=80%></p>
 
 
 
@@ -218,8 +234,7 @@ python Build.py -o GRAB_Output,Abscessus_subspecies
 Output:
 The default output directory is **GRAB_Combined** and the default BLAST database name is **GRAB_DB**. The GRAB_DB can now be referenced for BLAST searches with the path /GRAB_DB/GRAB_DB. 
 
-
-<img src="https://github.com/glickmac/GRAB/blob/master/images/Build_default.png" height="300" width="350">
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/Build_default.png" width=80%></p>
 
 #### Material Flag
 The material flag (**-m**) is used to specify the creation of a nucleotide (**DEFAULT**) or protein BLAST database. The flag options are nucl (nucleotide) or prot (protein). The flag is optional and nucleotide is the default if no -m option is used. 
