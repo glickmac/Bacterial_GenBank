@@ -2,10 +2,8 @@ library(shiny)
 library(shinydashboard)
 library(shinyjs)
 library(ggplot2)
-
-## Load in Phyloseq Structure
+## Load in Data Structure
 df = read.table("data/merged_frames.RData")
-
 
 
 jscode <- '
@@ -38,14 +36,15 @@ ui = dashboardPage(
     actionButton("goButton", "Go!"),
     tags$head(tags$script(HTML(jscode))),
     tagAppendAttributes(textInput("query", label = h3("Input Organismal Query"), value = ""), `data-proxy-click` = "goButton"),
-    h4("Please input organismal names seperated by either commas or spaces"),
-    downloadButton("downloadData", "Download")
+    h4("Please input organismal names seperated by either commas or spaces")
     )
 )
 
 server = function(input, output, session) {
   observeEvent(input$goButton, {
-    cat(input$query, "\n")
+    
+    
+    system("wget 'ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/007/865/GCA_000007865.1_ASM786v1/GCA_000007865.1_ASM786v1_protein.faa.gz'")
   })
   #x = strsplit(input$query, split = ",")
   

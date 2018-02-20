@@ -22,11 +22,6 @@ bacterial_taxa = pd.read_csv('data/Bacterial_tax_id_Levels.csv', keep_default_na
 merged_inner = pd.merge(left=assembly_summary, right=bacterial_taxa, left_on='taxid', right_on='tax_id')
 merged_inner.subspecies = merged_inner.subspecies.astype(str)
 
-## Clean_up dataframe
-
-### Currently the filtering by taxonomy relies on the column number so this
-### section remains a to-do priority. The numbers in Define Taxonomic will need
-### to be adjusted for the filtered table to be created 
 
 
 ## Define GREP Function
@@ -36,21 +31,27 @@ def _grep(x, list_to_grep):
             return True
     return False
 
+## Create an exit point if improper variables are present
 if args.l == None:
-    ## Create an exit point if improper variables are present
     print('Error: -l flag: Please enter a taxanomic level with the -l flag: Phylum, Class, Order, Family, Genus, Species, or Subspecies')
     exit()
 
-
+## Create exit if overwriting directories
 if args.o in ['data','demo']:
     print('Error: Please choose a different output directory name to avoid overwritting necessary files')
     exit()
 
-## Make sure 
+## Create exit if genetic material is not in list
 if args.m not in [None,'coding','protein','genomic']:
     print('Error: -m flag: Please enter type of genetic information: Options include "genomic", "coding" (Coding regions), or "protein"')
     exit()
 
+
+
+### Currently the filtering by taxonomy relies on the column number so this
+### section remains a to-do priority. The numbers in Define Taxonomic will need
+### to be adjusted for the filtered table to be created
+    
 ## Define Taxonomic Category
 if args.l.lower() == 'phylum':
     col_num = 12
