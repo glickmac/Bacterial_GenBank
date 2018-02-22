@@ -1,8 +1,7 @@
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/GRAB_logo.png" width=60%></p>
+
+
 ![Python](https://img.shields.io/badge/python-v2.7%20%2F%20v3.6-blue.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/anfederico/Stocktalk.svg)](https://github.com/glickmac/GRAB/issues)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
