@@ -63,9 +63,7 @@ Must be in environmental path
 pip install argparse
 pip install pandas
 ```
-[Argparse](https://pypi.python.org/pypi/argparse/)
-
-[Pandas](http://pandas.pydata.org/pandas-docs/stable/install.html)
+[Argparse](https://pypi.python.org/pypi/argparse/) || [Pandas](http://pandas.pydata.org/pandas-docs/stable/install.html)
 
 
 ## [Download GRAB](https://github.com/glickmac/GRAB/raw/master/GRAB.zip)
