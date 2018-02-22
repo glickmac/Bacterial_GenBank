@@ -3,7 +3,7 @@
 
 
 ![Python](https://img.shields.io/badge/python-v2.7%20%2F%20v3.6-blue.svg)
-[![GitHub Issues](https://img.shields.io/github/issues/anfederico/Stocktalk.svg)](https://github.com/glickmac/GRAB/issues)
+[![GitHub issues](https://img.shields.io/github/issues/glickmac/GRAB.svg)](https://github.com/glickmac/GRAB/issues)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
@@ -32,16 +32,7 @@ GRAB automates the retrieval of genomic information to build custom BLAST databa
 <p align="center"><img src="https://github.com/glickmac/GRAB/blob/master/images/GRAB.png" width=60%></p>
 
 
-
 ### Useful References
-
-[Anaconda](https://www.anaconda.com)
-
-Anaconda is a package manager to run GRAB on most systems
-
-[Bioconda](https://bioconda.github.io/)
-
-Bioconda is a channel that includes import packages notably BLAST
 
 [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
 
@@ -67,16 +58,15 @@ A helpful post on BLAST command makeblastdb
 Required software
 + NCBI-BLAST: [download](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
 Must be in environmental path
-+ Anaconda: 
-[download](https://www.anaconda.com/download/) || [environment documentation](https://conda.io/docs/user-guide/tasks/manage-environments.html)
-
-+ Bioconda: Install after Anaconda with commands below
-
++ Argparse & Pandas: 
 ```
-conda config --add channels defaults
-conda config --add channels conda-forge
-conda config --add channels bioconda
+pip install argparse
+pip install pandas
 ```
+[Argparse](https://pypi.python.org/pypi/argparse/)
+
+[Pandas](http://pandas.pydata.org/pandas-docs/stable/install.html)
+
 
 ## [Download GRAB](https://github.com/glickmac/GRAB/raw/master/GRAB.zip)
 
@@ -86,15 +76,6 @@ conda config --add channels bioconda
 unzip GRAB.zip
 cd GRAB
 ```
-
-#### Create the environment from the GRAB_environment.yml file:
-
-```
-conda env create -f GRAB_environment.yml
-```
-Activate the new environment:
-
-macOS and Linux: ```source activate GRAB```
 
 #### Other installations (Git)
 
