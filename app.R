@@ -110,7 +110,13 @@ server = function(input, output, session) {
       setwd("./GRAB_Sequences")
       lapply(wpath, system)
       setwd("..")
-      system("zip -r GRAB_Sequences.zip GRAB_Sequences")
+      if (file.exists("/srv/connect/apps/GRAB/GRAB_Sequences.zip")){
+        system("rm -r -f /srv/connect/apps/GRAB/GRAB_Sequences.zip")
+        system("zip -r GRAB_Sequences.zip GRAB_Sequences")
+      } else{
+        system("zip -r GRAB_Sequences.zip GRAB_Sequences")
+      }
+      
       show('downloadData')
       
     })
@@ -127,16 +133,6 @@ server = function(input, output, session) {
     )
     
     ## Adding File System
-    observe({
-      if (file.exists("/srv/connect/apps/GRAB/GRAB_Sequences")){
-        system("rm -r -f /srv/connect/apps/GRAB/GRAB_Sequences")
-      } else{}
-      
-      if (file.exists("/srv/connect/apps/GRAB/GRAB_Sequences.zip")){
-        system("rm -r -f /srv/connect/apps/GRAB/GRAB_Sequences.zip")
-      } else{}
-      
-    })
     
 }
 
